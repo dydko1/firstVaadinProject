@@ -13,6 +13,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
+import com.vaadin.tutorial.crm.backend.entity.Company;
 import com.vaadin.tutorial.crm.backend.entity.Contact;
 import com.vaadin.tutorial.crm.backend.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,14 @@ public class MainView extends VerticalLayout {
 
     private void configureGrid() {
         grid.addClassName("contact-grid");
+        grid.removeColumnByKey("company");
         grid.setSizeFull();
         grid.setColumns("firstName", "lastName", "email", "status");
+        grid.addColumn(contact -> {
+            Company company = contact.getCompany();
+            return company == null ? "-" : company.getName();
+        }).setHeader("Company");
+        grid.getColumns().forEach(col -> col.setAutoWidth(true));
     }
 
     private void updateList() {
