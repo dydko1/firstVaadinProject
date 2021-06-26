@@ -23,7 +23,7 @@ public class MainView extends VerticalLayout {
     private ContactService contactService;
     private Grid<Contact> grid = new Grid<>(Contact.class);
 
-    public MainView() {
+    public MainView(ContactService contactService) {
         this.contactService = contactService;
         addClassName("list-view");
         setSizeFull();
