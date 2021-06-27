@@ -17,27 +17,29 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.tutorial.crm.backend.entity.Company;
 import com.vaadin.tutorial.crm.backend.entity.Contact;
+import com.vaadin.tutorial.crm.backend.service.CompanyService;
 import com.vaadin.tutorial.crm.backend.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Route("")
 @CssImport("./styles/shared-styles.css")
 public class MainView extends VerticalLayout {
+
+    private final ContactForm form;
+    Grid<Contact> grid = new Grid<>(Contact.class);
+    TextField filterText = new TextField();
+
     private ContactService contactService;
 
-    private Grid<Contact> grid = new Grid<>(Contact.class);
-    private TextField filterText = new TextField();
-    private ContactForm form;
-
-    public MainView(ContactService contactService) {
+    public MainView(ContactService contactService,
+                    CompanyService companyService) {
         this.contactService = contactService;
         addClassName("list-view");
         setSizeFull();
-
         configureGrid();
         configureFilter();
 
-        form = new ContactForm();
+        form = new ContactForm(companyService.findAll());
 
         Div content = new Div(grid, form);
         content.addClassName("content");
@@ -47,6 +49,19 @@ public class MainView extends VerticalLayout {
         updateList();
     }
 
+    private void configureGrid() {
+        grid.addClassName("contact-grid");
+        grid.setSizeFull();
+        grid.removeColumnByKey("company");
+        grid.setColumns("firstName", "lastName", "email", "status");
+        grid.addColumn(contact -> {
+            Company company = contact.getCompany();
+            return company == null ? "-" : company.getName();
+        }).setHeader("Company");
+
+        grid.getColumns().forEach(col -> col.setAutoWidth(true));
+    }
+
     private void configureFilter() {
         filterText.setPlaceholder("Filter by name...");
         filterText.setClearButtonVisible(true);
@@ -54,20 +69,7 @@ public class MainView extends VerticalLayout {
         filterText.addValueChangeListener(e -> updateList());
     }
 
-    private void configureGrid() {
-        grid.addClassName("contact-grid");
-        grid.removeColumnByKey("company");
-        grid.setSizeFull();
-        grid.setColumns("firstName", "lastName", "email", "status");
-        grid.addColumn(contact -> {
-            Company company = contact.getCompany();
-            return company == null ? "-" : company.getName();
-        }).setHeader("Company");
-        grid.getColumns().forEach(col -> col.setAutoWidth(true));
-    }
-
     private void updateList() {
-        //grid.setItems(contactService.findAll());
         grid.setItems(contactService.findAll(filterText.getValue()));
     }
 }
