@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @Route("")
 @CssImport("./styles/shared-styles.css")
-public class MainView extends VerticalLayout {
+public class ListView extends VerticalLayout {
 
     private final ContactForm form;
     Grid<Contact> grid = new Grid<>(Contact.class);
@@ -31,7 +31,7 @@ public class MainView extends VerticalLayout {
 
     private ContactService contactService;
 
-    public MainView(ContactService contactService,
+    public ListView(ContactService contactService,
                     CompanyService companyService) {
         this.contactService = contactService;
         addClassName("list-view");
