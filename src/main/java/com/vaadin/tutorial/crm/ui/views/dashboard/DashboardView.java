@@ -1,4 +1,4 @@
-package com.vaadin.tutorial.crm.ui.view.dashboard;
+package com.vaadin.tutorial.crm.ui.views.dashboard;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.charts.Chart;
@@ -11,7 +11,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.tutorial.crm.backend.service.CompanyService;
 import com.vaadin.tutorial.crm.backend.service.ContactService;
-import com.vaadin.tutorial.crm.ui.view.MainLayout;
+import com.vaadin.tutorial.crm.ui.MainLayout;
 
 import java.util.Map;
 
