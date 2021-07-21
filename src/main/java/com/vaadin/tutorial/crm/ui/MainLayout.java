@@ -10,8 +10,17 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.RouterLink;
+import com.vaadin.flow.server.PWA;
 import com.vaadin.tutorial.crm.ui.views.dashboard.DashboardView;
 import com.vaadin.tutorial.crm.ui.views.list.ListView;
+
+@CssImport("./styles/shared-styles.css")
+@PWA(
+        name = "VaadinCRM",
+        shortName = "VaadinCRM",
+        offlineResources = {
+                "./styles/offline.css",
+                "./images/offline.png"})
 
 @CssImport("./styles/shared-styles.css")
 public class MainLayout extends AppLayout {
