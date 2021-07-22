@@ -21,7 +21,7 @@ import com.vaadin.tutorial.crm.ui.MainLayout;
 @CssImport("./styles/shared-styles.css")
 public class ListView extends VerticalLayout {
 
-    private final ContactForm form;
+    ContactForm form;
     Grid<Contact> grid = new Grid<>(Contact.class);
     TextField filterText = new TextField();
 
