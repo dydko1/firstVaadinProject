@@ -32,7 +32,7 @@ public class ListView extends VerticalLayout {
     public ListView(ContactService contactService,
                     CompanyService companyService) {
         this.contactService = contactService;
-        addClassName("list-view"); 
+        addClassName("list-view");
         setSizeFull();
         configureGrid();
 
