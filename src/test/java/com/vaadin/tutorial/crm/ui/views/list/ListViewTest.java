@@ -1,4 +1,4 @@
-package com.vaadin.tutorial.crm.ui.views.list1;
+package com.vaadin.tutorial.crm.ui.views.list;
 
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.data.provider.ListDataProvider;
@@ -18,20 +18,20 @@ public class ListViewTest {
     private ListView listView;
 
     @Test
-        public void formShownWhenContactSelected() {
-            Grid<Contact> grid = listView.grid;
-            Contact firstContact = getFirstItem(grid);
+    public void formShownWhenContactSelected() {
+        Grid<Contact> grid = listView.grid;
+        Contact firstContact = getFirstItem(grid);
 
-            ContactForm form = listView.form;
+        ContactForm form = listView.form;
 
-            Assert.assertFalse(form.isVisible());
-    		grid.asSingleSelect().setValue(firstContact);
-            Assert.assertTrue(form.isVisible());
-            Assert.assertEquals(firstContact.getFirstName(), form.firstName.getValue());
-        }
+        Assert.assertFalse(form.isVisible());
+        grid.asSingleSelect().setValue(firstContact);
+        Assert.assertTrue(form.isVisible());
+        Assert.assertEquals(firstContact.getFirstName(), form.firstName.getValue());
+    }
 
-    	private Contact getFirstItem(Grid<Contact> grid) {
-    		return( (ListDataProvider<Contact>) grid.getDataProvider()).getItems().iterator().next();
-    	}
+    private Contact getFirstItem(Grid<Contact> grid) {
+        return ((ListDataProvider<Contact>) grid.getDataProvider()).getItems().iterator().next();
+    }
 
 }
