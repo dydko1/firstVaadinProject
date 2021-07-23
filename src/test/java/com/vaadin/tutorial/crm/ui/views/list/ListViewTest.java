@@ -1,10 +1,8 @@
-package com.vaadin.tutorial.crm.ui.views.list;
+package com.vaadin.tutorial.crm.ui.views.list1;
 
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.tutorial.crm.backend.entity.Contact;
-import com.vaadin.tutorial.crm.ui.views.list.ContactForm;
-import com.vaadin.tutorial.crm.ui.views.list.ListView;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
