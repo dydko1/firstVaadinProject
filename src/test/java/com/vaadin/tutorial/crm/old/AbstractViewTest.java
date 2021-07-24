@@ -1,4 +1,4 @@
-package com.vaadin.tutorial.crm;
+package com.vaadin.tutorial.crm.old;
 
 import com.vaadin.flow.theme.AbstractTheme;
 import com.vaadin.testbench.ScreenshotOnFailureRule;
