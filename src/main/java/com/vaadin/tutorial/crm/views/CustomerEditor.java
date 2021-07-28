@@ -14,31 +14,14 @@ import com.vaadin.tutorial.crm.model.Customer;
 import com.vaadin.tutorial.crm.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- * A simple example to introduce building forms. As your real application is probably much
- * more complicated than this example, you could re-use this form in multiple places. This
- * example component is only used in MainView.
- * <p>
- * In a real world application you'll most likely using a common super class for all your
- * forms - less code, better UX.
- */
 @SpringComponent
 @UIScope
 public class CustomerEditor extends VerticalLayout implements KeyNotifier {
-
 	private final CustomerRepository repository;
-
-	/**
-	 * The currently edited customer
-	 */
 	private Customer customer;
-
-	/* Fields to edit properties in Customer entity */
 	TextField firstName = new TextField("First name");
 	TextField lastName = new TextField("Last name");
 
-	/* Action buttons */
-	// TODO why more code?
 	Button save = new Button("Save", VaadinIcon.CHECK.create());
 	Button cancel = new Button("Cancel");
 	Button delete = new Button("Delete", VaadinIcon.TRASH.create());
@@ -53,10 +36,8 @@ public class CustomerEditor extends VerticalLayout implements KeyNotifier {
 
 		add(firstName, lastName, actions);
 
-		// bind using naming convention
 		binder.bindInstanceFields(this);
 
-		// Configure and style components
 		setSpacing(true);
 
 		save.getElement().getThemeList().add("primary");
@@ -64,25 +45,23 @@ public class CustomerEditor extends VerticalLayout implements KeyNotifier {
 
 		addKeyPressListener(Key.ENTER, e -> save());
 
-		// wire action buttons to save, delete and reset
 		save.addClickListener(e -> save());
 		delete.addClickListener(e -> delete());
-		cancel.addClickListener(e -> editCustomer(customer));
-		setVisible(false);
+		cancel.addClickListener(e -> cancel());
 	}
 
-	void delete() {
+	private void delete() {
 		repository.delete(customer);
-		changeHandler.onChange();
+		changeHandler.OnChange();
 	}
 
-	void save() {
+	private void save() {
 		repository.save(customer);
-		changeHandler.onChange();
+		changeHandler.OnChange();
 	}
 
-	public interface ChangeHandler {
-		void onChange();
+	private void cancel() {
+		changeHandler.OnChange();
 	}
 
 	public final void editCustomer(Customer c) {
@@ -92,29 +71,18 @@ public class CustomerEditor extends VerticalLayout implements KeyNotifier {
 		}
 		final boolean persisted = c.getId() != null;
 		if (persisted) {
-			// Find fresh entity for editing
 			customer = repository.findById(c.getId()).get();
-		}
-		else {
+		} else {
 			customer = c;
 		}
 		cancel.setVisible(persisted);
 
-		// Bind customer properties to similarly named fields
-		// Could also use annotation or "manual binding" or programmatically
-		// moving values from fields to entities before saving
 		binder.setBean(customer);
-
 		setVisible(true);
-
-		// Focus first name initially
 		firstName.focus();
 	}
 
 	public void setChangeHandler(ChangeHandler h) {
-		// ChangeHandler is notified when either save or delete
-		// is clicked
 		changeHandler = h;
 	}
-
 }
