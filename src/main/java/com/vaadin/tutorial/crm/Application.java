@@ -1,6 +1,5 @@
 package com.vaadin.tutorial.crm;
 
-import com.vaadin.tutorial.crm.views.ChatMessage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
@@ -17,15 +16,5 @@ public class Application extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
-    }
-
-    @Bean
-    UnicastProcessor<ChatMessage> publisher() {
-        return UnicastProcessor.create();
-    }
-
-    @Bean
-    Flux<ChatMessage> messages(UnicastProcessor<ChatMessage> publisher) {
-        return publisher.replay(30).autoConnect();
     }
 }
