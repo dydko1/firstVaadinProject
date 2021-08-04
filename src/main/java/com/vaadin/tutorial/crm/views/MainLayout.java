@@ -31,6 +31,7 @@ public class MainLayout extends VerticalLayout {
         VerticalLayout todoList = new VerticalLayout();
         TextField taskField = new TextField();
         Button addButton = new Button("Add");
+
         addButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         addButton.addClickShortcut(Key.ENTER);
         addButton.addClickListener(e -> {
@@ -38,8 +39,6 @@ public class MainLayout extends VerticalLayout {
             todoList.add(checkbox);
         });
 
-        add(new H1("Vaadin todo"), todoList, new HorizontalLayout(taskField, addButton));
+        add(new H1("Todo Vaadin list"), todoList, new HorizontalLayout(taskField, addButton));
     }
-
-
 }
