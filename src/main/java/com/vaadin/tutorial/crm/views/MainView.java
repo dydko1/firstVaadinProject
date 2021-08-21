@@ -10,6 +10,7 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 import com.vaadin.tutorial.crm.backend.entity.Company;
 import com.vaadin.tutorial.crm.backend.entity.Contact;
@@ -19,14 +20,17 @@ import com.vaadin.tutorial.crm.backend.service.ContactService;
 public class MainView extends VerticalLayout {
 
     private ContactService contractService;
+
     private Grid<Contact> grid = new Grid<>(Contact.class);
+    private TextField filterText = new TextField();
 
     public MainView(ContactService contactService) {
         this.contractService = contactService;
         addClassName("list-view");
         setSizeFull();
         configureGrid();
-        add(grid);
+        configureFilter();
+        add(filterText, grid);
         updateList();
     }
 
@@ -35,14 +39,21 @@ public class MainView extends VerticalLayout {
         grid.setSizeFull();
         grid.removeColumnByKey("company");
         grid.setColumns("firstName", "lastName", "email", "status");
-        grid.addColumn(contact11 -> {
-            Company company = contact11.getCompany();
+        grid.addColumn(contact -> {
+            Company company = contact.getCompany();
             return company == null ? "-" : company.getName();
         }).setHeader("Company");
-        grid.getColumns().forEach(col->col.setAutoWidth(true));
+        grid.getColumns().forEach(col -> col.setAutoWidth(true));
+    }
+
+    private void configureFilter() {
+        filterText.setPlaceholder("Filter by name...");
+        filterText.setClearButtonVisible(true);
+        filterText.setValueChangeMode(ValueChangeMode.LAZY);
+        filterText.addValueChangeListener(e -> updateList());
     }
 
     private void updateList() {
-        grid.setItems(contractService.findAll());
+        grid.setItems(contractService.findAll(filterText.getValue()));
     }
 }
